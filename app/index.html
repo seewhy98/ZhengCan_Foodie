@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>正餐</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark">正</span>
+          <div>
+            <h1>正餐</h1>
+            <p>私人餐厅记忆库</p>
+          </div>
+        </div>
+        <nav class="nav">
+          <button class="nav-item active" data-view="library"><span>餐厅库</span><small id="libraryBadge">910条记忆</small></button>
+          <button class="nav-item" data-view="planner">今晚和谁吃</button>
+          <button class="nav-item" data-view="map">北京食客图鉴</button>
+          <button class="nav-item" data-view="places">北京好地Test</button>
+          <button class="nav-item" data-view="closed"><span>关门纪念馆</span><small id="closedBadge">178条回忆</small></button>
+          <button class="nav-item" data-view="national">全国巡店ComingSoon</button>
+        </nav>
+        <div class="sidebar-action">
+          <button class="nav-item add-entry" data-view="add">新增餐厅</button>
+        </div>
+      </aside>
+
+      <main class="main">
+        <section class="topbar">
+          <div>
+            <p class="eyebrow">探店档案</p>
+            <h2 id="viewTitle">餐厅库</h2>
+          </div>
+          <div class="stats" id="stats"></div>
+        </section>
+
+        <section class="view active" id="libraryView">
+          <div class="filters">
+            <label class="search">
+              <span>搜索</span>
+              <input id="searchInput" placeholder="餐厅、菜系、商圈、备注" />
+            </label>
+            <label>
+              <span>类型</span>
+              <select id="categoryFilter"></select>
+            </label>
+            <label>
+              <span>区域</span>
+              <select id="districtFilter"></select>
+            </label>
+            <label>
+              <span>预算</span>
+              <select id="priceFilter">
+                <option value="">不限</option>
+                <option value="50">50 内</option>
+                <option value="100">100 内</option>
+                <option value="200">200 内</option>
+                <option value="400">400 内</option>
+              </select>
+            </label>
+            <label>
+              <span>场景</span>
+              <select id="sceneFilter"></select>
+            </label>
+          </div>
+          <div class="content-grid">
+            <div class="restaurant-list" id="restaurantList"></div>
+            <article class="detail-panel" id="detailPanel"></article>
+          </div>
+        </section>
+
+        <section class="view" id="addView">
+          <form class="add-form" id="addRestaurantForm">
+            <div class="form-section">
+              <h3>添一碗饭</h3>
+            </div>
+            <div class="form-grid">
+              <label>
+                <span>餐厅名称</span>
+                <input id="newName" required placeholder="例如：某某小馆" />
+              </label>
+              <label>
+                <span>类型</span>
+                <select id="newCategory">
+                  <option>正餐</option>
+                  <option>酒吧咖啡</option>
+                  <option>简餐小吃</option>
+                </select>
+              </label>
+              <label>
+                <span>区域</span>
+                <input id="newDistrict" placeholder="例如：朝阳" />
+              </label>
+              <label>
+                <span>地铁/商圈</span>
+                <input id="newStation" placeholder="例如：亮马桥" />
+              </label>
+              <label>
+                <span>具体位置</span>
+                <input id="newAddress" placeholder="街道、商场或门店位置" />
+              </label>
+              <label>
+                <span>菜系/特色</span>
+                <input id="newFeature" placeholder="例如：日本料理，居酒屋" />
+              </label>
+              <label>
+                <span>人均价格</span>
+                <input id="newPrice" type="number" min="0" step="1" placeholder="200" />
+              </label>
+              <label>
+                <span>用餐舒适度</span>
+                <select id="newComfort">
+                  <option>A</option>
+                  <option>A-</option>
+                  <option>B+</option>
+                  <option selected>B</option>
+                  <option>B-</option>
+                  <option>C</option>
+                  <option>D</option>
+                </select>
+              </label>
+              <label>
+                <span>用餐亲密度</span>
+                <select id="newIntimacy">
+                  <option>A</option>
+                  <option selected>B</option>
+                  <option>C</option>
+                  <option>D</option>
+                </select>
+              </label>
+              <label>
+                <span>经度</span>
+                <input id="newLng" type="number" step="0.000001" placeholder="116.4074" />
+              </label>
+              <label>
+                <span>纬度</span>
+                <input id="newLat" type="number" step="0.000001" placeholder="39.9042" />
+              </label>
+              <label class="form-wide">
+                <span>备注</span>
+                <input id="newNote" placeholder="适合带谁、推荐菜、避雷点、当时心情" />
+              </label>
+            </div>
+            <div class="form-actions">
+              <label class="checkbox-row">
+                <input id="newStarred" type="checkbox" />
+                <span>标为私藏</span>
+              </label>
+              <button id="saveRestaurantButton" type="submit">保存到本地</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="view" id="plannerView">
+          <div class="planner">
+            <div class="planner-controls">
+              <label>
+                <span>同行对象</span>
+                <select id="partnerSelect">
+                  <option>朋友</option>
+                  <option>长辈</option>
+                  <option>同事</option>
+                  <option>暧昧对象</option>
+                  <option>亲密伴侣</option>
+                  <option>一个人</option>
+                </select>
+              </label>
+              <label>
+                <span>今晚目的</span>
+                <select id="purposeSelect">
+                  <option>安静聊天</option>
+                  <option>朋友小聚</option>
+                  <option>仪式感</option>
+                  <option>轻松随便</option>
+                  <option>饭后续摊</option>
+                  <option>长辈友好</option>
+                  <option>值得专门去</option>
+                </select>
+              </label>
+              <label>
+                <span>预算上限</span>
+                <select id="budgetSelect">
+                  <option value="120">120</option>
+                  <option value="200" selected>200</option>
+                  <option value="400">400</option>
+                  <option value="800">800</option>
+                  <option value="">不限</option>
+                </select>
+              </label>
+              <button id="recommendButton">生成推荐</button>
+            </div>
+            <div class="recommendations" id="recommendations"></div>
+          </div>
+        </section>
+
+        <section class="view" id="mapView">
+          <div class="map-layout">
+            <div class="map-panel" id="tasteMap"></div>
+            <div class="map-side" id="mapSide"></div>
+          </div>
+        </section>
+
+        <section class="view" id="placesView">
+          <div class="places-layout" id="placesList"></div>
+        </section>
+
+        <section class="view" id="closedView">
+          <div class="closed-header">
+            <h3>消失的北京饭桌</h3>
+            <p>不是垃圾数据，是你的城市记忆。</p>
+          </div>
+          <div class="closed-list" id="closedList"></div>
+        </section>
+
+        <section class="view" id="nationalView">
+          <div class="national-layout">
+            <div class="china-map-panel" id="chinaMap"></div>
+            <div class="map-side" id="nationalSide"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./config.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
